@@ -101,3 +101,14 @@ void CompactChainList::set(int pos, Element e) { //5
     }
 }
 
+void CompactChainList::removeAllOcurrences(Element e) {
+    list<pair<Element, int>>::iterator it = l.begin();
+
+    while(it != l.end()) {
+        if ((*it).first == e) {
+            it = l.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}

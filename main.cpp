@@ -15,7 +15,8 @@ int main() {
     cout << ccl1.searchElement('c') << endl;
     ccl1.set(3, 'c');
     ccl1.printPairs();
-
+    //ccl1.removeAllOcurrences('b');
+    //ccl1.printPairs();
 
     return 0;
 }
