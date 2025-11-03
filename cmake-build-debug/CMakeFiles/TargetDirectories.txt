@@ -1,0 +1,3 @@
+/Users/mariaantoniagil/CLionProjects/CompactChainList/cmake-build-debug/CMakeFiles/CompactChainList.dir
+/Users/mariaantoniagil/CLionProjects/CompactChainList/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mariaantoniagil/CLionProjects/CompactChainList/cmake-build-debug/CMakeFiles/rebuild_cache.dir
