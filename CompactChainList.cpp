@@ -101,6 +101,25 @@ void CompactChainList::set(int pos, Element e) { //5
     }
 }
 
+//Punto 6:
+void CompactChainList::removeFirstOcurrence(Element e) {
+    list<pair<Element, int>>::iterator it = l.begin();
+    bool found = false;
+
+    while(it != l.end() && found == false) {
+        if ((*it).first == e) {
+            (*it).second -= 1;
+            found = true;
+        }
+        if ((*it).second == 0) {
+            it = l.erase(it);
+            found = true;
+        }
+        ++it;
+    }
+}
+
+//Punto 7:
 void CompactChainList::removeAllOcurrences(Element e) {
     list<pair<Element, int>>::iterator it = l.begin();
 
@@ -112,3 +131,17 @@ void CompactChainList::removeAllOcurrences(Element e) {
         }
     }
 }
+
+//Punto 9:
+int CompactChainList::size() {
+    int acum = 0;
+
+    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
+        acum += (*it).second;
+    }
+
+    return acum;
+}
+
+//Punto 16:
+list<Element> expand();
