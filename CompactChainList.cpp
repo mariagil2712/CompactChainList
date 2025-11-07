@@ -143,5 +143,30 @@ int CompactChainList::size() {
     return acum;
 }
 
+// Punto 11:
+int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
+    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
+
+    }
+}
+
 //Punto 16:
-list<Element> expand();
+list<Element> CompactChainList::expand() {
+    list<Element> ans;
+    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
+        Element ele = (*it).first;
+        int rep = (*it).second;
+        for(int i = 0; i < rep; ++i){
+            ans.push_back(ele);
+        }
+    }
+    return ans;
+}
+
+//Punto 19:
+void CompactChainList::push_front(Element e, int o) {
+    pair<Element, int> pareja;
+    pareja.first = e;
+    pareja.second = o;
+    l.push_front(pareja);
+}
