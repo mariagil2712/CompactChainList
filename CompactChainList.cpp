@@ -145,8 +145,25 @@ int CompactChainList::size() {
 
 // Punto 11:
 int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
-    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
+    int ocurrences = 0;
+    CompactChainList subS(subsecuencia);
+    list<pair<Element, int>>::iterator itlist = l.begin();
 
+    for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
+        list<pair<Element, int>>::iterator itSubs = subS.l.begin();
+        while() {
+            
+        }
+    }    
+    return ocurrences;
+}
+
+//Punto 18:
+void CompactChainList::modifyAllOcurrences(Element e1, Element e2) {
+    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
+        if ((*it).first == e1) {
+            (*it).first = e2;
+        }
     }
 }
 
@@ -169,4 +186,12 @@ void CompactChainList::push_front(Element e, int o) {
     pareja.first = e;
     pareja.second = o;
     l.push_front(pareja);
+}
+
+//Punto 20:
+void CompactChainList::push_back(Element e, int o) {
+    pair<Element, int> pareja;
+    pareja.first = e;
+    pareja.second = o;
+    l.push_back(pareja);
 }

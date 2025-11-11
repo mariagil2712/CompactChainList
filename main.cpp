@@ -21,17 +21,25 @@ int main() {
     //ccl1.printPairs();
     ccl1.removeFirstOcurrence('b');
     ccl1.printPairs();
+
+    // Pruba size
     int tam = ccl1.size();
     cout << tam << endl;
-    list<char> implistexpand = ccl1.expand();
+
+    ccl1.push_front('y', 3);
+    ccl1.printPairs();
+
+    ccl1.push_back('x', 3);
+    ccl1.printPairs();
+
+    ccl1.modifyAllOcurrences('a', 'k');
+    ccl1.printPairs();
     // Ver lista expandida
+    list<char> implistexpand = ccl1.expand();
     for(char ele : implistexpand) {
         cout << ele << " ";
     } 
     cout << endl;
-
-    ccl1.push_front('y', 3);
-    ccl1.printPairs();
     return 0;
 }
 
