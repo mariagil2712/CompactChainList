@@ -148,13 +148,33 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
     int ocurrences = 0;
     CompactChainList subS(subsecuencia);
     list<pair<Element, int>>::iterator itlist = l.begin();
-
-    for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
-        list<pair<Element, int>>::iterator itSubs = subS.l.begin();
-        while() {
-            
+    while(itlist != l.end()) {
+        bool match = true;
+        list<pair<Element, int>>::iterator itsub = subS.l.begin();
+        while(itsub != subS.l.end() && match == true) {
+            if((*itlist).first != (*itsub).first) {
+                match = false;
+                cout << "list " << (*itlist).first << " sublist " << (*itsub).first << endl;
+                cout << "Aqui se vuelve false cuando .first's son diferentes" << endl;
+            }
+            else if((*itsub).second > (*itlist).second) {
+                match = false;
+                cout << "Aqui se vuelve false cuando cuando .second sub es mayor que .second llist" << endl;
+            }
+            else if(itsub != subS.l.begin() && itsub != --subS.l.end()) {
+                if((*itlist).second != (*itsub).second) {
+                    match = false;
+                    cout << "Aqui se vuelve false cuando medios no son iguales" << endl;
+                }
+            }
+            ++itsub;
         }
-    }    
+        if(match == true) 
+            ocurrences += 1;
+
+        ++itlist;
+    }
+    
     return ocurrences;
 }
 

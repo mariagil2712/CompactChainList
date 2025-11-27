@@ -9,9 +9,17 @@ using namespace std;
 //a a b b b c d d a a
 //a 2 , b 3 , c 1 , d 2
 int main() {
-    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'b', 'c', 'd', 'd', 'a', 'a'};
+    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'b', 'c', 'd', 'd', 'a', 'b'};
     CompactChainList ccl1(vectorPrueba);
     ccl1.printPairs();
+
+    // Prueba punto 11 (count consecutive occurrences)
+    vector<char> pruebaSub = {'a', 'b'};
+    CompactChainList ccl2(pruebaSub);
+    ccl2.printPairs();
+    int ocu = ccl1.getConsecutiveOcurrences(pruebaSub);
+    cout << ocu << endl;
+
     cout << ccl1.searchElement('c') << endl;
     ccl1.removeFirstOcurrence('b');
     ccl1.printPairs();
