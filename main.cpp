@@ -10,41 +10,49 @@ int main() {
     CompactChainList ccl1(vectorPrueba);
     ccl1.printPairs();
 
-    // Prueba punto 11 (count consecutive occurrences)
+    // Prueba punto 11 (get consecutive occurrences)
     vector<char> pruebaSub = {'a', 'a'};
-    CompactChainList ccl2(pruebaSub);
-    ccl2.printPairs();
     int ocu = ccl1.getConsecutiveOcurrences(pruebaSub);
     cout << ocu << endl;
 
+    // Prueba punto 4 (search element)
     cout << ccl1.searchElement('c') << endl;
-    ccl1.removeFirstOcurrence('b');
-    ccl1.printPairs();
-    ccl1.set(5, 'c');
-    ccl1.printPairs();
-    ccl1.removeAllOcurrences('b');
-    ccl1.printPairs();
+
+    // Prueba punto 6 (remove first occurrence)
     ccl1.removeFirstOcurrence('b');
     ccl1.printPairs();
 
-    // Pruba size
+    // Prueba punto 5 (set)
+    ccl1.set(5, 'k');
+    ccl1.printPairs();
+
+    // Prueba punto 7 (remove all occurrences)
+    ccl1.removeAllOcurrences('b');
+    ccl1.printPairs();
+
+    // Pruba punto 9 (size)
     int tam = ccl1.size();
     cout << tam << endl;
 
+    // Prueba punto 19 (push front)
     ccl1.push_front('y', 3);
     ccl1.printPairs();
 
+    // Prueba punto 20 (push back)
     ccl1.push_back('x', 3);
     ccl1.printPairs();
 
+    // Prueba punto 18 (modify all occurrences)
     ccl1.modifyAllOcurrences('a', 'k');
     ccl1.printPairs();
-    // Ver lista expandida
+
+    // prueba punto 16 (expand)
     list<char> implistexpand = ccl1.expand();
     for(char ele : implistexpand) {
         cout << ele << " ";
     } 
     cout << endl;
+
     return 0;
 }
 
