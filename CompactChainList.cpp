@@ -147,11 +147,12 @@ int CompactChainList::size() {
 int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
     int ocurrences = 0;
     CompactChainList subS(subsecuencia);
-    list<pair<Element, int>>::iterator itsub = subS.l.begin();
-    if(subS.l.size() == 1 && (*itsub).second == 1) {
+    //Caso donde la subsecuencia solo tiene un elemento
+    if(subS.l.size() == 1) {
+        list<pair<Element, int>>::iterator itsub = subS.l.begin();
         for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
             if((*itlist).first == (*itsub).first) {
-                    ocurrences += (*itlist).second;
+                    ocurrences += ((*itlist).second - (*itsub).second) + 1;
                 }
         }
     } else {
@@ -179,7 +180,7 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
                 ++itlistcopy;
             }
             if(match == true && itsub == subS.l.end()) 
-                    ocurrences += 1;
+                ocurrences += 1;
 
             ++itlist;
         }
@@ -187,14 +188,28 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
     return ocurrences;
 }
 
-//Punto 18:
-void CompactChainList::modifyAllOcurrences(Element e1, Element e2) {
-    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
-        if ((*it).first == e1) {
-            (*it).first = e2;
+//Punto 12:
+int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecuencia) {
+    /*
+    int i = -1;
+    bool encontrado = false;
+    list<pair<Element, int>>::iterator it = l.begin(); //it apunta a la primera pair
+
+    while (it != l.end() && !encontrado) {
+        if (it->first == e) {
+            encontrado = true;
+        }
+        else {
+            i = i + it->second;
+            ++it;
         }
     }
+    return i+1;
+    */
 }
+
+//Punto 15:
+CompactChainList getLexicographicFusion(CompactChainList &oth);
 
 //Punto 16:
 list<Element> CompactChainList::expand() {
@@ -207,6 +222,15 @@ list<Element> CompactChainList::expand() {
         }
     }
     return ans;
+}
+
+//Punto 18:
+void CompactChainList::modifyAllOcurrences(Element e1, Element e2) {
+    for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
+        if ((*it).first == e1) {
+            (*it).first = e2;
+        }
+    }
 }
 
 //Punto 19:

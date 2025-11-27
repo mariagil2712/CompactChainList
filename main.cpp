@@ -6,12 +6,12 @@
 using namespace std;
 
 int main() {
-    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'b', 'c', 'b', 'd', 'd', 'a', 'a', 'b', 'c', 'a', 'a', 'b', 'b'};
+    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'c', 'c', 'k', 't', 'c', 'k'};
     CompactChainList ccl1(vectorPrueba);
     ccl1.printPairs();
 
     // Prueba punto 11 (get consecutive occurrences)
-    vector<char> pruebaSub = {'a', 'a'};
+    vector<char> pruebaSub = {'c', 'k'};
     int ocu = ccl1.getConsecutiveOcurrences(pruebaSub);
     cout << ocu << endl;
 
