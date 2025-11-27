@@ -147,34 +147,43 @@ int CompactChainList::size() {
 int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
     int ocurrences = 0;
     CompactChainList subS(subsecuencia);
-    list<pair<Element, int>>::iterator itlist = l.begin();
-    while(itlist != l.end()) {
-        bool match = true;
-        list<pair<Element, int>>::iterator itsub = subS.l.begin();
-        while(itsub != subS.l.end() && match == true) {
-            if((*itlist).first != (*itsub).first) {
-                match = false;
-                cout << "list " << (*itlist).first << " sublist " << (*itsub).first << endl;
-                cout << "Aqui se vuelve false cuando .first's son diferentes" << endl;
-            }
-            else if((*itsub).second > (*itlist).second) {
-                match = false;
-                cout << "Aqui se vuelve false cuando cuando .second sub es mayor que .second llist" << endl;
-            }
-            else if(itsub != subS.l.begin() && itsub != --subS.l.end()) {
-                if((*itlist).second != (*itsub).second) {
-                    match = false;
-                    cout << "Aqui se vuelve false cuando medios no son iguales" << endl;
+    list<pair<Element, int>>::iterator itsub = subS.l.begin();
+    if(subS.l.size() == 1 && (*itsub).second == 1) {
+        for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
+            if((*itlist).first == (*itsub).first) {
+                    ocurrences += (*itlist).second;
                 }
-            }
-            ++itsub;
         }
-        if(match == true) 
-            ocurrences += 1;
+    } else {
+        list<pair<Element, int>>::iterator itlist = l.begin();
+        while(itlist != l.end()) {
+            bool match = true;
+            list<pair<Element, int>>::iterator itsub = subS.l.begin();
+            list<pair<Element, int>>::iterator itlistcopy = itlist;
+            while(itsub != subS.l.end() && match == true && itlistcopy != l.end()) {
+                //El elemento debe coincidir
+                if((*itlistcopy).first != (*itsub).first) {
+                    match = false;
+                }
+                // El itlist.second >= que el itsub.second
+                else if((*itsub).second > (*itlistcopy).second) {
+                    match = false;
+                }
+                //las parejas en la mitad deben ser excatamente iguales
+                else if(itsub != subS.l.begin() && itsub != --subS.l.end()) {
+                    if((*itlistcopy).second != (*itsub).second) {
+                        match = false;
+                    }
+                }
+                ++itsub;
+                ++itlistcopy;
+            }
+            if(match == true && itsub == subS.l.end()) 
+                    ocurrences += 1;
 
-        ++itlist;
+            ++itlist;
+        }
     }
-    
     return ocurrences;
 }
 

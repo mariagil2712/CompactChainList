@@ -5,16 +5,13 @@
 
 using namespace std;
 
-
-//a a b b b c d d a a
-//a 2 , b 3 , c 1 , d 2
 int main() {
-    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'b', 'c', 'd', 'd', 'a', 'b'};
+    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'b', 'c', 'b', 'd', 'd', 'a', 'a', 'b', 'c', 'a', 'a', 'b', 'b'};
     CompactChainList ccl1(vectorPrueba);
     ccl1.printPairs();
 
     // Prueba punto 11 (count consecutive occurrences)
-    vector<char> pruebaSub = {'a', 'b'};
+    vector<char> pruebaSub = {'a', 'a'};
     CompactChainList ccl2(pruebaSub);
     ccl2.printPairs();
     int ocu = ccl1.getConsecutiveOcurrences(pruebaSub);
@@ -25,8 +22,8 @@ int main() {
     ccl1.printPairs();
     ccl1.set(5, 'c');
     ccl1.printPairs();
-    //ccl1.removeAllOcurrences('b');
-    //ccl1.printPairs();
+    ccl1.removeAllOcurrences('b');
+    ccl1.printPairs();
     ccl1.removeFirstOcurrence('b');
     ccl1.printPairs();
 
