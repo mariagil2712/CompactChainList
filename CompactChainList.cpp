@@ -190,22 +190,65 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
 
 //Punto 12:
 int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecuencia) {
-    /*
-    int i = -1;
-    bool encontrado = false;
-    list<pair<Element, int>>::iterator it = l.begin(); //it apunta a la primera pair
-
-    while (it != l.end() && !encontrado) {
-        if (it->first == e) {
-            encontrado = true;
+    CompactChainList subS(subsecuencia);
+    int pos = -1;
+    //Caso donde la subsecuencia solo tiene un elemento
+    if(subS.l.size() == 1) {
+        bool isfirst = false;
+        list<pair<Element, int>>::iterator itsub = subS.l.begin();
+        list<pair<Element, int>>::iterator itlist = l.begin();
+        while(itlist != l.end() && isfirst == false) {
+            if((*itlist).first == (*itsub).first) {
+                pos += 1;
+                isfirst = true;
+            } else {
+                pos += (*itlist).second;
+            }
+            ++itlist;
         }
-        else {
-            i = i + it->second;
-            ++it;
+        if(isfirst == false) {
+            pos = -1;
+        }
+    } else {
+        bool isfirst = false;
+        list<pair<Element, int>>::iterator itlist = l.begin();
+        while(itlist != l.end() && isfirst == false) {
+            bool match = true;
+            list<pair<Element, int>>::iterator itsub = subS.l.begin();
+            list<pair<Element, int>>::iterator itlistcopy = itlist;
+            while(itsub != subS.l.end() && match == true && itlistcopy != l.end()) {
+                //El elemento debe coincidir
+                if((*itlistcopy).first != (*itsub).first) {
+                    match = false;
+                    pos += (*itlistcopy).second;
+                }
+                // El itlist.second >= que el itsub.second
+                else if((*itsub).second > (*itlistcopy).second) {
+                    match = false;
+                    pos += (*itlistcopy).second;
+                }
+                //las parejas en la mitad deben ser excatamente iguales
+                else if(itsub != subS.l.begin() && itsub != --subS.l.end()) {
+                    if((*itlistcopy).second != (*itsub).second) {
+                        match = false;
+                        pos += (*itlistcopy).second;
+                    }
+                }
+                ++itsub;
+                ++itlistcopy;
+            }
+            if(match == true && itsub == subS.l.end()) {
+                isfirst = true;
+                pos += ((*itlist).second - (*itsub).second);
+            }
+
+            ++itlist;
+        }
+        if(isfirst == false && itlist == l.end()) {
+            pos = -1;
         }
     }
-    return i+1;
-    */
+    return pos;
 }
 
 //Punto 15:
