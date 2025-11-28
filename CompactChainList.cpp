@@ -303,7 +303,7 @@ CompactChainList CompactChainList::operator+(CompactChainList &oth) {
 }
 
 //sobrecarga ==
-bool CompactChainList::operator==(const CompactChainList &oth) const{
+bool CompactChainList::operator==(const CompactChainList &oth) {
     bool ans = l == oth.l;
     return ans;
 }
