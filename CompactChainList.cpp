@@ -152,8 +152,9 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
         list<pair<Element, int>>::iterator itsub = subS.l.begin();
         for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
             if((*itlist).first == (*itsub).first) {
-                    ocurrences += ((*itlist).second - (*itsub).second) + 1;
-                }
+                //Cuenta las ocurrencias cuando las repeticiones de una pareja en la secuencia son mayores a las de la subsecuencia y la subsecuencia tiene un solo elemento
+                ocurrences += ((*itlist).second - (*itsub).second) + 1;
+            }
         }
     } else {
         list<pair<Element, int>>::iterator itlist = l.begin();
@@ -239,6 +240,7 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
             }
             if(match == true && itsub == subS.l.end()) {
                 isfirst = true;
+                //Ajusta la posicion cuando el bloque donde se encuentra la primera ocurrencia tiene varias repetciones
                 pos += ((*itlist).second - (*itsub).second);
             }
 
@@ -251,9 +253,6 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
     return pos;
 }
 
-//Punto 15:
-CompactChainList getLexicographicFusion(CompactChainList &oth);
-
 //Punto 16:
 list<Element> CompactChainList::expand() {
     list<Element> ans;
@@ -264,6 +263,48 @@ list<Element> CompactChainList::expand() {
             ans.push_back(ele);
         }
     }
+    return ans;
+}
+
+//Punto 17:
+//sobrecarga +
+CompactChainList CompactChainList::operator+(CompactChainList &oth) {
+    CompactChainList l3;
+    list<pair<Element, int>>::iterator itlist = l.begin(); 
+    list<pair<Element, int>>::iterator itoth = oth.l.begin();
+
+    while(itlist != l.end() && itoth != oth.l.end()) {
+        if((*itlist).first < (*itoth).first) {
+            l3.l.push_back((*itlist));
+            ++itlist;
+        } else if((*itoth).first < (*itlist).first) {
+            l3.l.push_back((*itoth));
+            ++itoth;
+        } else if((*itlist).first == (*itoth).first) {
+            //Si son iguales, se suman las longitudes
+            Element e = (*itlist).first;
+            int longi = (*itlist).second + (*itoth).second;
+            l3.l.push_back({e, longi});
+            ++itlist;
+            ++itoth;
+        }
+    }
+    //Si el ciclo anterior termino pero a alguna de las dos ccl todavia tiene elementos para agregar
+    while(itlist != l.end()) {
+        l3.l.push_back((*itlist));
+        ++itlist;
+    }
+    while(itoth != oth.l.end()) {
+        l3.l.push_back((*itoth));
+        ++itoth;
+    }
+
+    return l3;
+}
+
+//sobrecarga ==
+bool CompactChainList::operator==(const CompactChainList &oth) const{
+    bool ans = l == oth.l;
     return ans;
 }
 

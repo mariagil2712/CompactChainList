@@ -6,9 +6,30 @@
 using namespace std;
 
 int main() {
-    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'c', 'c', 'k', 't', 'c', 'k', 'a', 'a', 'z'};
+    vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'f', 'c', 'k', 't', 'c', 'k', 'k', 'a', 'z'};
+    vector<char> vectorPrueba2 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
+    vector<char> vectorPrueba3 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
     CompactChainList ccl1(vectorPrueba);
+    CompactChainList ccl2(vectorPrueba2);
+    CompactChainList ccl4(vectorPrueba3);
+
+    // Pruba Punto 17 (sobrecarga ==)
+    cout << "sobrecarha ==:" << endl;
+    ccl2.printPairs();
+    ccl4.printPairs();
+    if(ccl2 == ccl4) {
+        cout << "Son iguales" << endl;
+    } else {
+        cout << "No son iguales" << endl;
+    }
+
+
+    // Prueba punto 17 (get lexicographic fusion)
+    cout << "get lexicographic fusion:" << endl;
     ccl1.printPairs();
+    ccl2.printPairs();
+    CompactChainList ccl3 = ccl1 + ccl2;
+    ccl3.printPairs();
 
     // Prueba punto 11 (get consecutive occurrences)
     vector<char> pruebaSub = {'a', 'z'};
