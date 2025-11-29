@@ -37,8 +37,7 @@ CompactChainList::CompactChainList(vector<Element> &secuencia) { //2
     l.push_back({valor, ocurrencias});
 }
 
-CompactChainList::CompactChainList(const CompactChainList &lista)
-{
+CompactChainList::CompactChainList(const CompactChainList &lista) { //3
     this->l = lista.l;
 }
 
@@ -50,13 +49,18 @@ int CompactChainList::searchElement(Element e) { // 4
     while (it != l.end() && !encontrado) {
         if (it->first == e) {
             encontrado = true;
+            i  = i + 1;
         }
         else {
             i = i + it->second;
             ++it;
         }
     }
-    return i+1;
+    if(encontrado == false) {
+        i = -1;
+    }
+
+    return i;
 }
 
 void CompactChainList::set(int pos, Element e) { //5
@@ -441,6 +445,12 @@ int CompactChainList::getIndexFirstOcurrence(vector<Element> &subsecuencia) { //
     }
 
     return posInicio;
+}
+
+//Punto 15:
+CompactChainList CompactChainList::getLexicographicFusion(CompactChainList &oth) {
+    CompactChainList ans = *this + oth;
+    return ans;
 }
 
 //Punto 16:

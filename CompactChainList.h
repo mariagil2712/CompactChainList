@@ -8,7 +8,7 @@
 #include <map>
 
 using namespace std;
-typedef char Element;
+typedef int Element;
 
 class CompactChainList {
 private:
