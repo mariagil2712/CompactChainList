@@ -1,18 +1,67 @@
+//Código de María Gil e Isabella Ramírez
+
 #include <iostream>
 #include "CompactChainList.h"
-#include <vector>
 #include <list>
+#include <vector>
+#include <map>
 
 using namespace std;
+typedef char Element;
+
+void imprimirMapa(const map<int, list<Element>>& mapa) {
+    map<int, list<Element>>::const_iterator itMapa = mapa.begin();
+    while (itMapa != mapa.end()) {
+
+        cout << "{" << itMapa->first << ": [";
+
+        list<Element>::const_iterator itLista = itMapa->second.begin();
+        while (itLista != itMapa->second.end()) {
+            cout << *itLista;
+
+            list<Element>::const_iterator itSiguiente = itLista;
+            ++itSiguiente;
+            if (itSiguiente != itMapa->second.end()) {
+                cout << ", ";
+            }
+
+            ++itLista;
+        }
+
+        cout << "]}" << endl;
+
+        ++itMapa;
+    }
+}
 
 int main() {
+
     vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'f', 'c', 'k', 't', 'c', 'k', 'k', 'a', 'z'};
     vector<char> vectorPrueba2 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
     vector<char> vectorPrueba3 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
+    vector<char> vectorPrueba4 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
     CompactChainList ccl1(vectorPrueba);
     CompactChainList ccl2(vectorPrueba2);
     CompactChainList ccl4(vectorPrueba3);
 
+
+    ccl1.printPairs();
+    ccl1.set(4, 'c');
+    ccl1.printPairs();
+    ccl1.removeBlockPosition(2);
+    ccl1.printPairs();
+    ccl1.insertElement(5, 'k');
+    ccl1.printPairs();
+    cout << ccl1[6] << endl;
+    map<int, list<Element>> resultado = ccl1.elementoPorOcurrencia();
+    imprimirMapa(resultado);
+    bool comparacion;
+    comparacion = ccl2<ccl1;
+    cout << comparacion;
+
+
+
+    /*
     // Pruba Punto 17 (sobrecarga ==)
     cout << "sobrecarha ==:" << endl;
     ccl2.printPairs();
@@ -78,6 +127,7 @@ int main() {
     } 
     cout << endl;
 
+*/
     return 0;
 }
 

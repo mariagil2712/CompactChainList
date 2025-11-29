@@ -1,10 +1,11 @@
+//Código de María Gil e Isabella Ramírez
+
 #ifndef COMPACTCHAINLIST_H
 #define COMPACTCHAINLIST_H
 
 #include <list>
 #include <vector>
-#include <iostream>
-#include <algorithm>
+#include <map>
 
 using namespace std;
 typedef char Element;
@@ -12,12 +13,13 @@ typedef char Element;
 class CompactChainList {
 private:
     list<pair<Element, int>> l;
+    int contarDesde(vector<Element> &subsecuencia, int indice, int posDesde);
 
 public:
     // Constructores
     CompactChainList(); //1
     CompactChainList(vector<Element> &secuencia); //2
-    CompactChainList(CompactChainList &lista); //3
+    CompactChainList(const CompactChainList &lista); //3
     CompactChainList getLexicographicFusion(CompactChainList &oth); //15
 
     // Analizadoras
@@ -28,6 +30,7 @@ public:
     int getOcurrences(vector<Element> &subsecuencia); // 13
     int getIndexFirstOcurrence(vector<Element> &subsecuencia); // 14
     list<Element> expand(); //16
+    map<int, list<Element>> elementoPorOcurrencia(); //22
 
     // Modificadoras
     void set(int pos, Element e); //5
@@ -38,12 +41,12 @@ public:
     void modifyAllOcurrences(Element e1, Element e2); //18
     void push_front(Element e, int o); //19
     void push_back(Element e, int o); //20
-    static void sortVectorCCL(vector<CompactChainList> ccls); // 21
+    static void sortVectorCCL(vector<CompactChainList> &ccls); // 21
 
     // Sobrecarga de operadores
     CompactChainList operator+(CompactChainList &oth); //17
     Element operator[](int pos); //17
-    bool operator<(CompactChainList &oth); //17
+    bool operator<(const CompactChainList &oth) const; //17
     bool operator==(const CompactChainList &oth); //17
 
     //Print

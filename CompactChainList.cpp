@@ -1,4 +1,11 @@
+//Código de María Gil e Isabella Ramírez
+
 #include "CompactChainList.h"
+#include <list>
+#include <vector>
+#include <iostream>
+#include <map>
+#include <algorithm>
 using namespace std;
 
 CompactChainList::CompactChainList() {} //1
@@ -30,8 +37,9 @@ CompactChainList::CompactChainList(vector<Element> &secuencia) { //2
     l.push_back({valor, ocurrencias});
 }
 
-CompactChainList::CompactChainList(CompactChainList &lista) { //3
-    l = lista.l;
+CompactChainList::CompactChainList(const CompactChainList &lista)
+{
+    this->l = lista.l;
 }
 
 int CompactChainList::searchElement(Element e) { // 4
@@ -98,6 +106,23 @@ void CompactChainList::set(int pos, Element e) { //5
             l.insert(siguiente, {e, 1});
             l.insert(siguiente, {valorOriginal, longitudDespues});
         }
+
+        // Fusionar bloques adyacentes con el mismo valor
+        if (l.size() > 1) {
+            auto itFusion = l.begin();
+            auto siguienteFusion = itFusion;
+            ++siguienteFusion;
+
+            while (siguienteFusion != l.end()) {
+                if (itFusion->first == siguienteFusion->first) {
+                    itFusion->second += siguienteFusion->second;
+                    siguienteFusion = l.erase(siguienteFusion);
+                } else {
+                    ++itFusion;
+                    ++siguienteFusion;
+                }
+            }
+        }
     }
 }
 
@@ -132,6 +157,24 @@ void CompactChainList::removeAllOcurrences(Element e) {
     }
 }
 
+void CompactChainList::removeBlockPosition(int pos) { //8
+    int i = 0;
+    list<pair<Element, int>>::iterator it = l.begin();
+    bool encontrado = false;
+
+    // Hallar pair donde está la pos
+    while (it != l.end() && !encontrado) {
+        if (i + it->second > pos) {
+            encontrado = true;
+        }
+        else {
+            i = i + it->second;
+            ++it;
+        }
+    }
+    l.erase(it);
+}
+
 //Punto 9:
 int CompactChainList::size() {
     int acum = 0;
@@ -141,6 +184,67 @@ int CompactChainList::size() {
     }
 
     return acum;
+}
+
+void CompactChainList::insertElement(int pos, Element e) { //10
+    int i = 0;
+    list<pair<Element, int>>::iterator it = l.begin();
+    bool encontrado = false;
+
+    // Hallar pair donde está la pos
+    while (it != l.end() && !encontrado) {
+        if (i + it->second > pos) {
+            encontrado = true;
+        }
+        else {
+            i = i + it->second;
+            ++it;
+        }
+    }
+
+    int k = pos - i;
+
+    //caso 1: si el elemento es del mismo tipo del pair en el que está
+    if (e == it->first) {
+        it->second = it->second + 1;
+    }
+    //caso 2: si toca insertar en la posicion de un elemento que solo está una vez
+    else if (it->second == 1) {
+        l.insert(it, {e, 1});
+    }
+    //caso 3: insertar al inicio del bloque
+    else if (k == 0) {
+        l.insert(it, {e, 1});
+    }
+    //general: si toca insertar y separar
+    else {
+        Element valorOriginal = it->first;
+        int longitudAntes = k;
+        int longitudDespues = it->second - k;
+
+        it->second = longitudAntes;
+        list<pair<Element, int>>::iterator siguiente = it;
+        ++siguiente;
+        l.insert(siguiente, {e, 1});
+        l.insert(siguiente, {valorOriginal, longitudDespues});
+    }
+
+    // Fusionar bloques adyacentes con el mismo valor
+    if (l.size() > 1) {
+        list<pair<Element, int>>::iterator itFusion = l.begin();
+        list<pair<Element, int>>::iterator siguienteFusion = itFusion;
+        ++siguienteFusion;
+
+        while (siguienteFusion != l.end()) {
+            if (itFusion->first == siguienteFusion->first) {
+                itFusion->second = itFusion->second + siguienteFusion->second;
+                siguienteFusion = l.erase(siguienteFusion);
+            } else {
+                ++itFusion;
+                ++siguienteFusion;
+            }
+        }
+    }
 }
 
 // Punto 11:
@@ -253,6 +357,92 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
     return pos;
 }
 
+int CompactChainList::getOcurrences(vector<Element> &subsecuencia) { //13
+    int contador = 0;
+    list<pair<Element, int>>::iterator it = l.begin();
+    int posActual = 0;
+
+    // Contar desde cada posición donde aparece el primer elemento
+    while (it != l.end()) {
+        if (it->first == subsecuencia[0]) {
+            // Por cada aparición del primer elemento
+            for (int rep = 0; rep < it->second; rep = rep + 1) {
+                int posBusqueda = posActual + rep + 1;
+
+                // Contar cuántas formas hay de completar la subsecuencia desde aquí
+                int combinaciones = contarDesde(subsecuencia, 1, posBusqueda);
+                contador = contador + combinaciones;
+            }
+        }
+        posActual = posActual + it->second;
+        ++it;
+    }
+
+    return contador;
+}
+
+int CompactChainList::contarDesde(vector<Element> &subsecuencia, int indice, int posDesde) { //operacion auxiliar para poder hacer la 13
+    // Caso base: si ya procesamos toda la subsecuencia
+    if (indice >= subsecuencia.size()) {
+        return 1;
+    }
+
+    int total = 0;
+    list<pair<Element, int>>::iterator it = l.begin();
+    int posActual = 0;
+
+    // Buscar el elemento actual de la subsecuencia
+    while (it != l.end()) {
+        if (posActual >= posDesde && it->first == subsecuencia[indice]) {
+            // Por cada aparición de este elemento
+            for (int rep = 0; rep < it->second; rep = rep + 1) {
+                int posSiguiente = posActual + rep + 1;
+
+                // Contar recursivamente desde la siguiente posición
+                int combinaciones = contarDesde(subsecuencia, indice + 1, posSiguiente);
+                total = total + combinaciones;
+            }
+        }
+        posActual = posActual + it->second;
+        ++it;
+    }
+
+    return total;
+}
+
+int CompactChainList::getIndexFirstOcurrence(vector<Element> &subsecuencia) { //14
+    int posActual = 0;
+    int posInicio = -1;
+    int indiceSubsec = 0;
+    bool encontrado = false;
+
+    list<pair<Element, int>>::iterator it = l.begin();
+
+    while (it != l.end() && !encontrado) {
+        if (it->first == subsecuencia[indiceSubsec]) {
+            if (indiceSubsec == 0) {
+                posInicio = posActual;
+            }
+
+            indiceSubsec = indiceSubsec + 1;
+
+            if (indiceSubsec == subsecuencia.size()) {
+                encontrado = true;
+            }
+        }
+
+        posActual = posActual + it->second;
+        ++it;
+    }
+
+    // Si no encontró toda la subsecuencia, retornar -1
+    if (!encontrado) {
+        posInicio = -1;
+    }
+
+    return posInicio;
+}
+
 //Punto 16:
 list<Element> CompactChainList::expand() {
     list<Element> ans;
@@ -304,7 +494,60 @@ CompactChainList CompactChainList::operator+(CompactChainList &oth) {
 
 //sobrecarga ==
 bool CompactChainList::operator==(const CompactChainList &oth) {
-    bool ans = l == oth.l;
+    bool ans = (l == oth.l);
+    return ans;
+}
+
+//sobrecarga []
+Element CompactChainList::operator[](int pos) {
+    int i = 0;
+    list<pair<Element, int>>::iterator it = l.begin();
+    bool encontrado = false;
+
+    // Hallar pair donde está la pos
+    while (it != l.end() && !encontrado) {
+        if (i + it->second > pos) {
+            encontrado = true;
+        }
+        else {
+            i = i + it->second;
+            ++it;
+        }
+    }
+    return it->first;
+}
+
+//sobrecarga <
+
+bool CompactChainList::operator<(const CompactChainList &oth) const {
+    bool ans = false;
+    bool encontradoDiferencia = false;
+    list<pair<Element, int>>::const_iterator it = l.begin();
+    list<pair<Element, int>>::const_iterator it2 = oth.l.begin();
+
+    while (it != l.end() && it2 != oth.l.end() && !encontradoDiferencia) {
+        // si los elementos son diferentes
+        if (it->first != it2->first) {
+            ans = it->first < it2->first;
+            encontradoDiferencia = true;
+        }
+        // si los elementos son iguales pero con diferente cantidad
+        else if (it->second != it2->second) {
+            ans = it->second < it2->second;
+            encontradoDiferencia = true;
+        }
+        // si el bloque es igual, continuar al siguiente
+        else {
+            ++it;
+            ++it2;
+        }
+    }
+
+    // si uno se acaba antes del otro sin que halla diferencia, el que se acaba primero es menor por cantidad de parejas/bloques
+    if (!encontradoDiferencia) {
+        ans = (it == l.end() && it2 != oth.l.end());
+    }
+
     return ans;
 }
 
@@ -331,4 +574,48 @@ void CompactChainList::push_back(Element e, int o) {
     pareja.first = e;
     pareja.second = o;
     l.push_back(pareja);
+}
+
+void CompactChainList::sortVectorCCL(vector<CompactChainList> &ccls) { //21
+    sort(ccls.begin(), ccls.end());
+}
+
+map<int, list<Element>> CompactChainList::elementoPorOcurrencia() { //22
+    map<int, list<Element>> mapa;
+    list<pair<Element, int>>::iterator itLista = l.begin();
+    while (itLista != l.end()) {
+        map<int, list<Element>>::iterator itMapa = mapa.find(itLista->second);
+
+        // verificar si la clave YA está
+        if (itMapa != mapa.end()) {
+            // agregar el Element si no está repetido
+            bool existe = false;
+            list<Element>::iterator itListElem = itMapa->second.begin();
+            while (itListElem != itMapa->second.end()) {
+                if (*itListElem == itLista->first) {
+                    existe = true;
+                }
+                ++itListElem;
+            }
+            if (!existe) {
+                itMapa->second.push_back(itLista->first);
+            }
+        } else {
+            // si no está la clave, crearla con una lista que empiece con el elemento
+            list<Element> nuevaLista;
+            nuevaLista.push_back(itLista->first);
+            mapa.insert(pair<int, list<Element>>(itLista->second, nuevaLista));
+        }
+
+        ++itLista;
+    }
+
+    // ordenar cada lista del mapa
+    map<int, list<Element>>::iterator itOrden = mapa.begin();
+    while (itOrden != mapa.end()) {
+        itOrden->second.sort();
+        ++itOrden;
+    }
+
+    return mapa;
 }
