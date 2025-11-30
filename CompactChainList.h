@@ -13,7 +13,8 @@ typedef int Element;
 class CompactChainList {
 private:
     list<pair<Element, int>> l;
-    int contarDesde(vector<Element> &subsecuencia, int indice, int posDesde);
+    int contarDesdeBloque(vector<Element> &subsecuencia, int indice, list<pair<Element, int>>::iterator itActual, int offsetEnBloqueActual, int posBaseBloque);
+    bool verificarDesdeBloque(vector<Element> &subsecuencia, int indice, list<pair<Element, int>>::iterator itActual, int offsetEnBloqueActual, int posBaseBloque);
 
 public:
     // Constructores

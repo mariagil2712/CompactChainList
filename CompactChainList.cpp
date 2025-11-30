@@ -363,88 +363,172 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
 
 int CompactChainList::getOcurrences(vector<Element> &subsecuencia) { //13
     int contador = 0;
+
     list<pair<Element, int>>::iterator it = l.begin();
-    int posActual = 0;
+    int posGlobal = 0;
 
-    // Contar desde cada posición donde aparece el primer elemento
+    // Para cada bloque
     while (it != l.end()) {
+        // Si el bloque contiene el primer elemento de la subsecuencia
         if (it->first == subsecuencia[0]) {
-            // Por cada aparición del primer elemento
+            // Para CADA ocurrencia individual en este bloque
             for (int rep = 0; rep < it->second; rep = rep + 1) {
-                int posBusqueda = posActual + rep + 1;
+                int posInicio = posGlobal + rep;
 
-                // Contar cuántas formas hay de completar la subsecuencia desde aquí
-                int combinaciones = contarDesde(subsecuencia, 1, posBusqueda);
+                // Contar desde la siguiente posición después de este elemento
+                list<pair<Element, int>>::iterator itSig = it;
+                int offsetSig = rep + 1;
+
+                int combinaciones = contarDesdeBloque(subsecuencia, 1, itSig, offsetSig, posGlobal);
                 contador = contador + combinaciones;
             }
         }
-        posActual = posActual + it->second;
+
+        posGlobal = posGlobal + it->second;
         ++it;
     }
 
     return contador;
 }
 
-int CompactChainList::contarDesde(vector<Element> &subsecuencia, int indice, int posDesde) { //operacion auxiliar para poder hacer la 13
-    // Caso base: si ya procesamos toda la subsecuencia
-    if (indice >= subsecuencia.size()) {
-        return 1;
-    }
-
+int CompactChainList::contarDesdeBloque(vector<Element> &subsecuencia, int indice, list<pair<Element, int>>::iterator itActual, int offsetEnBloqueActual, int posBaseBloque) {
     int total = 0;
-    list<pair<Element, int>>::iterator it = l.begin();
-    int posActual = 0;
 
-    // Buscar el elemento actual de la subsecuencia
-    while (it != l.end()) {
-        if (posActual >= posDesde && it->first == subsecuencia[indice]) {
-            // Por cada aparición de este elemento
-            for (int rep = 0; rep < it->second; rep = rep + 1) {
-                int posSiguiente = posActual + rep + 1;
+    // Caso base: completamos toda la subsecuencia
+    if (indice >= subsecuencia.size()) {
+        total = 1;
+    }
+    else {
+        list<pair<Element, int>>::iterator it = itActual;
+        int posActual = posBaseBloque;
+        bool primerBloque = true;
 
-                // Contar recursivamente desde la siguiente posición
-                int combinaciones = contarDesde(subsecuencia, indice + 1, posSiguiente);
-                total = total + combinaciones;
+        // Recorrer desde el bloque actual en adelante
+        while (it != l.end()) {
+            if (it->first == subsecuencia[indice]) {
+                int inicio = 0;
+                int fin = it->second;
+
+                // En el primer bloque, empezar desde el offset
+                if (primerBloque) {
+                    inicio = offsetEnBloqueActual;
+                    primerBloque = false;
+                }
+
+                // Contar cada ocurrencia individual en este bloque
+                for (int rep = inicio; rep < fin; rep = rep + 1) {
+                    list<pair<Element, int>>::iterator siguiente = it;
+                    int offsetSiguiente = rep + 1;
+
+                    int combinaciones = contarDesdeBloque(subsecuencia, indice + 1, siguiente, offsetSiguiente, posActual);
+                    total = total + combinaciones;
+                }
             }
+
+            if (primerBloque) {
+                primerBloque = false;
+            }
+
+            posActual = posActual + it->second;
+            ++it;
         }
-        posActual = posActual + it->second;
-        ++it;
     }
 
     return total;
 }
 
 int CompactChainList::getIndexFirstOcurrence(vector<Element> &subsecuencia) { //14
-    int posActual = 0;
     int posInicio = -1;
-    int indiceSubsec = 0;
     bool encontrado = false;
 
     list<pair<Element, int>>::iterator it = l.begin();
+    int posGlobal = 0;
 
+    // Buscar el primer elemento de la subsecuencia
     while (it != l.end() && !encontrado) {
-        if (it->first == subsecuencia[indiceSubsec]) {
-            if (indiceSubsec == 0) {
-                posInicio = posActual;
-            }
+        if (it->first == subsecuencia[0]) {
+            // Para cada ocurrencia en este bloque
+            for (int rep = 0; rep < it->second && !encontrado; rep = rep + 1) {
+                int posActual = posGlobal + rep;
 
-            indiceSubsec = indiceSubsec + 1;
+                // Verificar si desde aquí se puede completar la subsecuencia
+                list<pair<Element, int>>::iterator itSig = it;
+                int offsetSig = rep + 1;
 
-            if (indiceSubsec == subsecuencia.size()) {
-                encontrado = true;
+                bool completado = verificarDesdeBloque(subsecuencia, 1, itSig, offsetSig, posGlobal);
+
+                if (completado) {
+                    posInicio = posActual;
+                    encontrado = true;
+                }
             }
         }
 
-        posActual = posActual + it->second;
+        posGlobal = posGlobal + it->second;
         ++it;
     }
 
-    // Si no encontró toda la subsecuencia, retornar -1
-    if (!encontrado) {
-        posInicio = -1;
+    return posInicio;
+}
+
+bool CompactChainList::verificarDesdeBloque(vector<Element> &subsecuencia, int indice, list<pair<Element, int>>::iterator itActual, int offsetEnBloqueActual, int posBaseBloque) {
+    bool resultado = false;
+
+    // Caso base: completamos toda la subsecuencia
+    if (indice >= subsecuencia.size()) {
+        resultado = true;
+    }
+    else {
+        list<pair<Element, int>>::iterator it = itActual;
+        int posActual = posBaseBloque;
+        bool primerBloque = true;
+        bool encontradoElemento = false;
+
+        // Recorrer desde el bloque actual en adelante
+        while (it != l.end() && !encontradoElemento) {
+            if (it->first == subsecuencia[indice]) {
+                int inicio = 0;
+
+                // En el primer bloque, empezar desde el offset
+                if (primerBloque) {
+                    inicio = offsetEnBloqueActual;
+                    primerBloque = false;
+                }
+
+                // Verificar si hay suficientes elementos de este tipo
+                int elementosDisponibles = it->second - inicio;
+
+                // Contar cuántos elementos consecutivos iguales necesitamos
+                int elementosNecesarios = 1;
+                while (indice + elementosNecesarios < subsecuencia.size() &&
+                       subsecuencia[indice + elementosNecesarios] == subsecuencia[indice]) {
+                    elementosNecesarios = elementosNecesarios + 1;
+                }
+
+                if (elementosDisponibles >= elementosNecesarios) {
+                    // Tenemos suficientes, continuar con el siguiente elemento diferente
+                    list<pair<Element, int>>::iterator siguiente = it;
+                    int offsetSiguiente = inicio + elementosNecesarios;
+
+                    resultado = verificarDesdeBloque(subsecuencia, indice + elementosNecesarios, siguiente, offsetSiguiente, posActual);
+                    encontradoElemento = true;
+                }
+                else {
+                    resultado = false;
+                    encontradoElemento = true;
+                }
+            }
+
+            if (primerBloque && !encontradoElemento) {
+                primerBloque = false;
+            }
+
+            posActual = posActual + it->second;
+            ++it;
+        }
     }
 
-    return posInicio;
+    return resultado;
 }
 
 //Punto 15:
