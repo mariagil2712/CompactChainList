@@ -272,7 +272,7 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
     if(subS.l.size() == 1) {
         list<pair<Element, int>>::iterator itsub = subS.l.begin();
         for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
-            if((*itlist).first == (*itsub).first) {
+            if(itlist->first == itsub->first && itlist->second >= itsub ->second) {
                 //Cuenta las ocurrencias cuando las repeticiones de una pareja en la secuencia son mayores a las de la subsecuencia y la subsecuencia tiene un solo elemento
                 ocurrences += (itlist->second - itsub->second) + 1;
             }
@@ -320,7 +320,7 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
         list<pair<Element, int>>::iterator itsub = subS.l.begin();
         list<pair<Element, int>>::iterator itlist = l.begin();
         while(itlist != l.end() && isfirst == false) {
-            if(itlist->first == itsub->first) {
+            if(itlist->first == itsub->first && itlist->second >= itsub->second) {
                 isfirst = true;
             } else {
                 pos += itlist->second;
