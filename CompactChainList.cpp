@@ -11,10 +11,17 @@ using namespace std;
 CompactChainList::CompactChainList() {} //1
 
 void CompactChainList::printPairs() { //print
+    int n = l.size();
+    int i = 0;
+    cout << "[";
     for (auto& pareja : l) {
-        cout << "(" << pareja.first << "," << pareja.second << ") ";
+        if( i < n - 1)
+            cout << "{" << pareja.first << ", " << pareja.second << "},";
+        else 
+            cout << "{" << pareja.first << ", " << pareja.second << "}";
+        ++i;
     }
-    cout << endl;
+    cout << "]" << endl;
 }
 
 CompactChainList::CompactChainList(vector<Element> &secuencia) { //2
@@ -42,14 +49,13 @@ CompactChainList::CompactChainList(const CompactChainList &lista) { //3
 }
 
 int CompactChainList::searchElement(Element e) { // 4
-    int i = -1;
+    int i = 0;
     bool encontrado = false;
     list<pair<Element, int>>::iterator it = l.begin(); //it apunta a la primera pair
 
     while (it != l.end() && !encontrado) {
         if (it->first == e) {
             encontrado = true;
-            i  = i + 1;
         }
         else {
             i = i + it->second;
@@ -300,7 +306,7 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
 //Punto 12:
 int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecuencia) {
     CompactChainList subS(subsecuencia);
-    int pos = -1;
+    int pos = 0;
     //Caso donde la subsecuencia solo tiene un elemento
     if(subS.l.size() == 1) {
         bool isfirst = false;
@@ -346,14 +352,17 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
                 ++itsub;
                 ++itlistcopy;
             }
+
             if(match == true && itsub == subS.l.end()) {
                 isfirst = true;
+                list<pair<Element, int>>::iterator itsubbeg = subS.l.begin();
                 //Ajusta la posicion cuando el bloque donde se encuentra la primera ocurrencia tiene varias repetciones
-                pos += ((*itlist).second - (*itsub).second);
+                pos += ((*itlist).second - (*itsubbeg).second);
             }
 
             ++itlist;
         }
+        
         if(isfirst == false && itlist == l.end()) {
             pos = -1;
         }

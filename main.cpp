@@ -204,7 +204,6 @@ int main() {
     ccl5.printPairs();
     cout << endl;
 
-
     ccl1.printPairs();
     ccl1.set(4, 'c');
     ccl1.printPairs();
@@ -218,9 +217,7 @@ int main() {
     bool comparacion;
     comparacion = ccl2<ccl1;
     cout << comparacion;
-    */
 
-    /*
     // Pruba Punto 17 (sobrecarga ==)
     cout << "sobrecarha ==:" << endl;
     ccl2.printPairs();
@@ -231,8 +228,7 @@ int main() {
         cout << "No son iguales" << endl;
     }
 
-
-    // Prueba punto 17 (get lexicographic fusion)
+    // Prueba punto 17 (+)
     cout << "get lexicographic fusion:" << endl;
     ccl1.printPairs();
     ccl2.printPairs();
@@ -240,53 +236,62 @@ int main() {
     ccl3.printPairs();
 
     // Prueba punto 11 (get consecutive occurrences)
+    cout << "get consecutive Ocurrences de a, z:" << endl;
     vector<char> pruebaSub = {'a', 'z'};
+    ccl1.printPairs();
     int ocu = ccl1.getConsecutiveOcurrences(pruebaSub);
     cout << ocu << endl;
 
     // Prueba punto 12 (get index first consecutive occurrence)
+    cout << "get index first consecutive Ocurrence de a, z:" << endl;
+    ccl1.printPairs();
     int indexConsec = ccl1.getIndexFirstConsecutiveOcurrence(pruebaSub);
     cout << indexConsec << endl;
 
     // Prueba punto 4 (search element)
+    cout << "Search Element: c" << endl;
+    ccl1.printPairs();
     cout << ccl1.searchElement('c') << endl;
 
     // Prueba punto 6 (remove first occurrence)
+    cout << "Remove firsr occurence b:" << endl;
     ccl1.removeFirstOcurrence('b');
     ccl1.printPairs();
 
-    // Prueba punto 5 (set)
-    ccl1.set(5, 'k');
-    ccl1.printPairs();
-
     // Prueba punto 7 (remove all occurrences)
+    cout << "Remove all ocurreences: b" << endl;
     ccl1.removeAllOcurrences('b');
     ccl1.printPairs();
 
     // Pruba punto 9 (size)
+    cout << "size:" << endl;
+    ccl1.printPairs();
     int tam = ccl1.size();
     cout << tam << endl;
 
     // Prueba punto 19 (push front)
+    cout << "push front:" << endl;
     ccl1.push_front('y', 3);
     ccl1.printPairs();
 
     // Prueba punto 20 (push back)
+    cout << "Push back:" << endl;
     ccl1.push_back('x', 3);
     ccl1.printPairs();
 
     // Prueba punto 18 (modify all occurrences)
+    cout << "Modify all occurences a, k:" << endl;
     ccl1.modifyAllOcurrences('a', 'k');
     ccl1.printPairs();
 
     // prueba punto 16 (expand)
+    cout << "expand:" << endl;
     list<char> implistexpand = ccl1.expand();
     for(char ele : implistexpand) {
         cout << ele << " ";
     } 
     cout << endl;
-
-*/
+  */
     return 0;
 }
 
