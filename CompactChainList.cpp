@@ -314,7 +314,6 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
         list<pair<Element, int>>::iterator itlist = l.begin();
         while(itlist != l.end() && isfirst == false) {
             if((*itlist).first == (*itsub).first) {
-                pos += 1;
                 isfirst = true;
             } else {
                 pos += (*itlist).second;

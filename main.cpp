@@ -8,7 +8,7 @@
 #include <cstdio>
 
 using namespace std;
-typedef int Element;
+typedef char Element;
 
 void imprimirMapa(const map<int, list<Element>>& mapa) {
     map<int, list<Element>>::const_iterator itMapa = mapa.begin();
@@ -36,7 +36,7 @@ void imprimirMapa(const map<int, list<Element>>& mapa) {
 }
 
 int main() {
-
+/*
     int i, casos, v, n;
   vector<Element> vec1 = {10, 10, 10, 10, 3, 3, 3, 5, 5, 6, 7, 8, 3, 3, 3, 3, 5, 11, 11, 4};
   vector<Element> vec2 = {10, 10, 10, 10, 3, 3, 3, 3, 6, 7, 8, 9};
@@ -186,8 +186,9 @@ int main() {
   for(list<Element>::iterator it = lis.begin(); it != lis.end(); ++it)
     printf("%d ", *it);
   printf("\n");
+  */
 
-    /*  
+    
     vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'f', 'c', 'k', 't', 'c', 'k', 'k', 'a', 'z'};
     vector<char> vectorPrueba2 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
     vector<char> vectorPrueba3 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
@@ -236,14 +237,14 @@ int main() {
     ccl3.printPairs();
 
     // Prueba punto 11 (get consecutive occurrences)
-    cout << "get consecutive Ocurrences de a, z:" << endl;
-    vector<char> pruebaSub = {'a', 'z'};
+    cout << "get consecutive Ocurrences de k:" << endl;
+    vector<char> pruebaSub = {'k'};
     ccl1.printPairs();
     int ocu = ccl1.getConsecutiveOcurrences(pruebaSub);
     cout << ocu << endl;
 
     // Prueba punto 12 (get index first consecutive occurrence)
-    cout << "get index first consecutive Ocurrence de a, z:" << endl;
+    cout << "get index first consecutive Ocurrence de k:" << endl;
     ccl1.printPairs();
     int indexConsec = ccl1.getIndexFirstConsecutiveOcurrence(pruebaSub);
     cout << indexConsec << endl;
@@ -291,7 +292,7 @@ int main() {
         cout << ele << " ";
     } 
     cout << endl;
-  */
+  
     return 0;
 }
 
