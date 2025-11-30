@@ -8,7 +8,7 @@
 #include <cstdio>
 
 using namespace std;
-typedef char Element;
+typedef int Element;
 
 void imprimirMapa(const map<int, list<Element>>& mapa) {
     map<int, list<Element>>::const_iterator itMapa = mapa.begin();
@@ -36,7 +36,7 @@ void imprimirMapa(const map<int, list<Element>>& mapa) {
 }
 
 int main() {
-/*
+
     int i, casos, v, n;
   vector<Element> vec1 = {10, 10, 10, 10, 3, 3, 3, 5, 5, 6, 7, 8, 3, 3, 3, 3, 5, 11, 11, 4};
   vector<Element> vec2 = {10, 10, 10, 10, 3, 3, 3, 3, 6, 7, 8, 9};
@@ -186,9 +186,9 @@ int main() {
   for(list<Element>::iterator it = lis.begin(); it != lis.end(); ++it)
     printf("%d ", *it);
   printf("\n");
-  */
 
-    
+
+   /* 
     vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'f', 'c', 'k', 't', 'c', 'k', 'k', 'a', 'z'};
     vector<char> vectorPrueba2 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
     vector<char> vectorPrueba3 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
@@ -292,6 +292,7 @@ int main() {
         cout << ele << " ";
     } 
     cout << endl;
+    */
   
     return 0;
 }

@@ -8,7 +8,9 @@
 Son iguales ccl1 y ccl2
 No son iguales ccl1 y ccl3
 ************ Comparación **************
-ccl3 no es menor que ccl1
+[{10, 4},{3, 3},{5, 2},{6, 1},{7, 1},{8, 1},{3, 4},{5, 1},{11, 2},{4, 1}]
+[{10, 4},{3, 4},{6, 1},{7, 1},{8, 1},{9, 1}]
+ccl3 es menor que ccl1
 ccl2 no es menor que ccl1
 ccl1 no es menor que ccl2
 *************** Acceso ****************

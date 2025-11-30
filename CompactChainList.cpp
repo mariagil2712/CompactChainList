@@ -635,11 +635,11 @@ bool CompactChainList::operator<(const CompactChainList &oth) const {
         }
         // si los elementos son iguales pero con diferente cantidad
         else if (it->second != it2->second) {
-            ans = it->second < it2->second;
+            ans = it->second > it2->second;
             encontradoDiferencia = true;
         }
         // si el bloque es igual, continuar al siguiente
-        else {
+        else if (it->first == it2->first && it->second == it2->second){
             ++it;
             ++it2;
         }
@@ -647,7 +647,8 @@ bool CompactChainList::operator<(const CompactChainList &oth) const {
 
     // si uno se acaba antes del otro sin que halla diferencia, el que se acaba primero es menor por cantidad de parejas/bloques
     if (!encontradoDiferencia) {
-        ans = (it == l.end() && it2 != oth.l.end());
+        if(l.size() != oth.l.size())
+            ans = l.size() < oth.l.size();
     }
 
     return ans;
