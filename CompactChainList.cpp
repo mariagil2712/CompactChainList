@@ -8,7 +8,8 @@
 #include <algorithm>
 using namespace std;
 
-CompactChainList::CompactChainList() {} //1
+//Punto 1:
+CompactChainList::CompactChainList() {}
 
 void CompactChainList::printPairs() { //print
     int n = l.size();
@@ -24,7 +25,8 @@ void CompactChainList::printPairs() { //print
     cout << "]" << endl;
 }
 
-CompactChainList::CompactChainList(vector<Element> &secuencia) { //2
+//Punto 2:
+CompactChainList::CompactChainList(vector<Element> &secuencia) {
     int i = 1;
     Element valor = secuencia[0];
     int ocurrencias = 1;
@@ -44,11 +46,13 @@ CompactChainList::CompactChainList(vector<Element> &secuencia) { //2
     l.push_back({valor, ocurrencias});
 }
 
-CompactChainList::CompactChainList(const CompactChainList &lista) { //3
+//Punto 3:
+CompactChainList::CompactChainList(const CompactChainList &lista) {
     this->l = lista.l;
 }
 
-int CompactChainList::searchElement(Element e) { // 4
+//Punto 4:
+int CompactChainList::searchElement(Element e) {
     int i = 0;
     bool encontrado = false;
     list<pair<Element, int>>::iterator it = l.begin(); //it apunta a la primera pair
@@ -69,7 +73,8 @@ int CompactChainList::searchElement(Element e) { // 4
     return i;
 }
 
-void CompactChainList::set(int pos, Element e) { //5
+//Punto 5:
+void CompactChainList::set(int pos, Element e) {
     int i = 0;
     list<pair<Element, int>>::iterator it = l.begin();
     bool encontrado = false;
@@ -142,11 +147,11 @@ void CompactChainList::removeFirstOcurrence(Element e) {
     bool found = false;
 
     while(it != l.end() && found == false) {
-        if ((*it).first == e) {
-            (*it).second -= 1;
+        if (it->first == e) {
+            it->second -= 1;
             found = true;
         }
-        if ((*it).second == 0) {
+        if (it->second == 0) {
             it = l.erase(it);
             found = true;
         }
@@ -159,7 +164,7 @@ void CompactChainList::removeAllOcurrences(Element e) {
     list<pair<Element, int>>::iterator it = l.begin();
 
     while(it != l.end()) {
-        if ((*it).first == e) {
+        if (it->first == e) {
             it = l.erase(it);
         } else {
             ++it;
@@ -167,7 +172,8 @@ void CompactChainList::removeAllOcurrences(Element e) {
     }
 }
 
-void CompactChainList::removeBlockPosition(int pos) { //8
+//Punto 8:
+void CompactChainList::removeBlockPosition(int pos) {
     int i = 0;
     list<pair<Element, int>>::iterator it = l.begin();
     bool encontrado = false;
@@ -190,13 +196,14 @@ int CompactChainList::size() {
     int acum = 0;
 
     for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
-        acum += (*it).second;
+        acum += it->second;
     }
 
     return acum;
 }
 
-void CompactChainList::insertElement(int pos, Element e) { //10
+//Punto 10:
+void CompactChainList::insertElement(int pos, Element e) {
     int i = 0;
     list<pair<Element, int>>::iterator it = l.begin();
     bool encontrado = false;
@@ -267,7 +274,7 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
         for(list<pair<Element, int>>::iterator itlist = l.begin(); itlist != l.end(); ++itlist) {
             if((*itlist).first == (*itsub).first) {
                 //Cuenta las ocurrencias cuando las repeticiones de una pareja en la secuencia son mayores a las de la subsecuencia y la subsecuencia tiene un solo elemento
-                ocurrences += ((*itlist).second - (*itsub).second) + 1;
+                ocurrences += (itlist->second - itsub->second) + 1;
             }
         }
     } else {
@@ -278,16 +285,16 @@ int CompactChainList::getConsecutiveOcurrences(vector<Element> &subsecuencia) {
             list<pair<Element, int>>::iterator itlistcopy = itlist;
             while(itsub != subS.l.end() && match == true && itlistcopy != l.end()) {
                 //El elemento debe coincidir
-                if((*itlistcopy).first != (*itsub).first) {
+                if(itlistcopy->first != itsub->first) {
                     match = false;
                 }
                 // El itlist.second >= que el itsub.second
-                else if((*itsub).second > (*itlistcopy).second) {
+                else if(itsub->second > itlistcopy->second) {
                     match = false;
                 }
                 //las parejas en la mitad deben ser excatamente iguales
                 else if(itsub != subS.l.begin() && itsub != --subS.l.end()) {
-                    if((*itlistcopy).second != (*itsub).second) {
+                    if(itlistcopy->second != itsub->second) {
                         match = false;
                     }
                 }
@@ -313,10 +320,10 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
         list<pair<Element, int>>::iterator itsub = subS.l.begin();
         list<pair<Element, int>>::iterator itlist = l.begin();
         while(itlist != l.end() && isfirst == false) {
-            if((*itlist).first == (*itsub).first) {
+            if(itlist->first == itsub->first) {
                 isfirst = true;
             } else {
-                pos += (*itlist).second;
+                pos += itlist->second;
             }
             ++itlist;
         }
@@ -332,20 +339,20 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
             list<pair<Element, int>>::iterator itlistcopy = itlist;
             while(itsub != subS.l.end() && match == true && itlistcopy != l.end()) {
                 //El elemento debe coincidir
-                if((*itlistcopy).first != (*itsub).first) {
+                if(itlistcopy->first != itsub->first) {
                     match = false;
-                    pos += (*itlistcopy).second;
+                    pos += itlistcopy->second;
                 }
                 // El itlist.second >= que el itsub.second
-                else if((*itsub).second > (*itlistcopy).second) {
+                else if(itsub->second > itlistcopy->second) {
                     match = false;
-                    pos += (*itlistcopy).second;
+                    pos += itlistcopy->second;
                 }
                 //las parejas en la mitad deben ser excatamente iguales
                 else if(itsub != subS.l.begin() && itsub != --subS.l.end()) {
-                    if((*itlistcopy).second != (*itsub).second) {
+                    if(itlistcopy->second != itsub->second) {
                         match = false;
-                        pos += (*itlistcopy).second;
+                        pos += itlistcopy->second;
                     }
                 }
                 ++itsub;
@@ -356,7 +363,7 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
                 isfirst = true;
                 list<pair<Element, int>>::iterator itsubbeg = subS.l.begin();
                 //Ajusta la posicion cuando el bloque donde se encuentra la primera ocurrencia tiene varias repetciones
-                pos += ((*itlist).second - (*itsubbeg).second);
+                pos += (itlist->second - itsubbeg->second);
             }
 
             ++itlist;
@@ -369,7 +376,8 @@ int CompactChainList::getIndexFirstConsecutiveOcurrence(vector<Element> &subsecu
     return pos;
 }
 
-int CompactChainList::getOcurrences(vector<Element> &subsecuencia) { //13
+//Punto 13:
+int CompactChainList::getOcurrences(vector<Element> &subsecuencia) {
     int contador = 0;
 
     list<pair<Element, int>>::iterator it = l.begin();
@@ -445,7 +453,8 @@ int CompactChainList::contarDesdeBloque(vector<Element> &subsecuencia, int indic
     return total;
 }
 
-int CompactChainList::getIndexFirstOcurrence(vector<Element> &subsecuencia) { //14
+//Punto 14:
+int CompactChainList::getIndexFirstOcurrence(vector<Element> &subsecuencia) {
     int posInicio = -1;
     bool encontrado = false;
 
@@ -549,8 +558,8 @@ CompactChainList CompactChainList::getLexicographicFusion(CompactChainList &oth)
 list<Element> CompactChainList::expand() {
     list<Element> ans;
     for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
-        Element ele = (*it).first;
-        int rep = (*it).second;
+        Element ele = it->first;
+        int rep = it->second;
         for(int i = 0; i < rep; ++i){
             ans.push_back(ele);
         }
@@ -566,22 +575,22 @@ CompactChainList CompactChainList::operator+(CompactChainList &oth) {
     list<pair<Element, int>>::iterator itoth = oth.l.begin();
 
     while(itlist != l.end() && itoth != oth.l.end()) {
-        if((*itlist).first < (*itoth).first) {
+        if(itlist->first < itoth->first) {
             l3.l.push_back((*itlist));
             ++itlist;
-        } else if((*itoth).first < (*itlist).first) {
+        } else if(itoth->first < itlist->first) {
             l3.l.push_back((*itoth));
             ++itoth;
-        } else if((*itlist).first == (*itoth).first) {
+        } else if(itlist->first == itoth->first) {
             //Si son iguales, se suman las longitudes
-            Element e = (*itlist).first;
-            int longi = (*itlist).second + (*itoth).second;
+            Element e = itlist->first;
+            int longi = itlist->second + itoth->second;
             l3.l.push_back({e, longi});
             ++itlist;
             ++itoth;
         }
     }
-    //Si el ciclo anterior termino pero a alguna de las dos ccl todavia tiene elementos para agregar
+    //Si el ciclo anterior termino pero a alguna de las dos ccl todavia tiene elementos para agregar, entonces agrego los que faltan
     while(itlist != l.end()) {
         l3.l.push_back((*itlist));
         ++itlist;
@@ -620,7 +629,6 @@ Element CompactChainList::operator[](int pos) {
 }
 
 //sobrecarga <
-
 bool CompactChainList::operator<(const CompactChainList &oth) const {
     bool ans = false;
     bool encontradoDiferencia = false;
@@ -657,8 +665,8 @@ bool CompactChainList::operator<(const CompactChainList &oth) const {
 //Punto 18:
 void CompactChainList::modifyAllOcurrences(Element e1, Element e2) {
     for(list<pair<Element, int>>::iterator it = l.begin(); it != l.end(); ++it) {
-        if ((*it).first == e1) {
-            (*it).first = e2;
+        if (it->first == e1) {
+            it->first = e2;
         }
     }
 }
@@ -679,11 +687,13 @@ void CompactChainList::push_back(Element e, int o) {
     l.push_back(pareja);
 }
 
-void CompactChainList::sortVectorCCL(vector<CompactChainList> &ccls) { //21
+//Punto 21:
+void CompactChainList::sortVectorCCL(vector<CompactChainList> &ccls) {
     sort(ccls.begin(), ccls.end());
 }
 
-map<int, list<Element>> CompactChainList::elementoPorOcurrencia() { //22
+//Punto 22:
+map<int, list<Element>> CompactChainList::elementoPorOcurrencia() {
     map<int, list<Element>> mapa;
     list<pair<Element, int>>::iterator itLista = l.begin();
     while (itLista != l.end()) {
