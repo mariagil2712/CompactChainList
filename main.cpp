@@ -162,17 +162,17 @@ int main() {
   printf("El vector {3, 3} aparece de forma consecutiva en ccl1 %d veces\n", ccl1.getConsecutiveOcurrences(vec4));
 
   vec4 = {7, 7, 10};
-  printf("El vector {7, 7, 10} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
+  //printf("El vector {7, 7, 10} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
   vec4 = {3, 3, 5};
-  printf("El vector {3, 3, 5} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
+  //printf("El vector {3, 3, 5} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
   vec4 = {3, 3};
-  printf("El vector {3, 3} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
+  //printf("El vector {3, 3} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
   vec4 = {3, 3, 5, 11};
-  printf("El vector {3, 3, 5, 11} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
+  //printf("El vector {3, 3, 5, 11} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
   vec4 = {3, 3, 5, 6, 5, 11, 11, 11};
-  printf("El vector {3, 3, 5, 6, 5, 11, 11, 11} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
+  //printf("El vector {3, 3, 5, 6, 5, 11, 11, 11} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
   vec4 = {3, 3, 5, 6, 5, 11, 11, 11, 4};
-  printf("El vector {3, 3, 5, 6, 5, 11, 11, 11, 4} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
+  //printf("El vector {3, 3, 5, 6, 5, 11, 11, 11, 4} aparece de forma no consecutiva en ccl1 %d veces\n", ccl1.getOcurrences(vec4));
 
   lis = ccl1.expand();
   for(list<Element>::iterator it = lis.begin(); it != lis.end(); ++it)
@@ -188,7 +188,7 @@ int main() {
   printf("\n");
 
 
-   /* 
+   /*
     vector<char> vectorPrueba = {'a', 'a', 'b', 'b', 'f', 'c', 'k', 't', 'c', 'k', 'k', 'a', 'z'};
     vector<char> vectorPrueba2 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
     vector<char> vectorPrueba3 = {'a', 'a', 'd', 'b', 'c', 'c', 'k', 'm', 'c', 'k', 'z', 'a', 'z'};
@@ -290,10 +290,10 @@ int main() {
     list<char> implistexpand = ccl1.expand();
     for(char ele : implistexpand) {
         cout << ele << " ";
-    } 
+    }
     cout << endl;
     */
-  
+
     return 0;
 }
 
